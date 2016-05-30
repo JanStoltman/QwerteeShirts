@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -17,6 +20,7 @@ public class SplashScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+        Glide.with(this).load(R.drawable.logo).into((ImageView)findViewById(R.id.SplashImage));
         try {
             getElements();
         } catch (IOException e) {
@@ -39,16 +43,16 @@ public class SplashScreen extends AppCompatActivity {
 
         @Override
         protected String[] doInBackground(Void... params) {
-            Document doc = null;
             Elements temp = null;
             try {
-                doc = Jsoup.connect(getString(R.string.qwertee_url)).get();
+                Document doc = Jsoup.connect(getString(R.string.qwertee_url)).get();
                 temp = doc.getElementsByClass("dynamic-image-design");
             } catch (IOException e) {
                 e.printStackTrace();
             }
             String[] urls = new String[3];
             for (int i = 0; i < 3; i++) {
+                assert temp != null;
                 urls[i] = temp.get(i).attr("src");
             }
 
